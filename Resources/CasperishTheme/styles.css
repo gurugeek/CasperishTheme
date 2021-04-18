@@ -8,6 +8,9 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 
+@import url("https://use.typekit.net/scy1gxp.css");
+
+
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
@@ -2020,11 +2023,11 @@ video {
 }
 
 .font-sans {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: monotype-grotesque, sans-serif;
 }
 
 .font-serif {
-  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+  font-family: font-family: adobe-caslon-pro, serif;
 }
 
 .font-normal {
@@ -2337,7 +2340,7 @@ video {
 
 .text-white {
   --text-opacity: 1;
-  color: #fff;
+  color: #ceff00;
   color: rgba(255, 255, 255, var(--text-opacity));
 }
 
