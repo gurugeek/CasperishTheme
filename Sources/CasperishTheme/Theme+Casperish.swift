@@ -185,8 +185,7 @@ private struct CasperishHTMLFactory<Site: Website>: HTMLFactory where Site: Casp
                                   .div(.class("mx-0 sm:mx-6"),
                                        .main(.class("bg-white w-full p-8 md:p-24 text-xl md:text-2xl text-gray-800 leading-normal"),
                                              .article(.class("prose prose-sm sm:prose-xl break-words"), .contentBody(page.body)),
-                                             .element(named: "applause-button", text: "style=width: 51px; height: 58px;")
-                                             
+                                             .element(named: "applause-button", attributes: [Attribute(name: "style", value: "width: 58px; height: 58px;")])
                                 
                                              
                                              
