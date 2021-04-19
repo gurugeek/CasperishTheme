@@ -141,7 +141,12 @@ private struct CasperishHTMLFactory<Site: Website>: HTMLFactory where Site: Casp
                         .div(.class("container max-w-5xl mx-auto \(item.metadata.cover == nil ? "" : "md:-mt-32")"),
                              .div(.class("mx-0 sm:mx-6"),
                                   .main(.class("bg-white w-full p-8 md:p-24 text-gray-800 leading-normal"),
-                                        .article(.class("prose prose-sm sm:prose-xl break-words"), .contentBody(item.body))
+                                        .article(.class("prose prose-sm sm:prose-xl break-words"),
+                                                 
+                                                 .text("👏"),
+                                                 
+                                                 .contentBody(item.body))
+                                        
                                 ),
                                   .if(!context.site.newsletterAction.isEmpty, .subscribe(for: context.site)),
                                   .authorAndMore(for: context.site)
@@ -165,12 +170,26 @@ private struct CasperishHTMLFactory<Site: Website>: HTMLFactory where Site: Casp
                       context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: page, on: context.site, stylesheetPaths: [context.site.rootPath.appendingComponent("/styles.css")]),
+            .head(
+                for: page, on: context.site, stylesheetPaths: [context.site.rootPath.appendingComponent("/styles.css")]
+            ),
+            
+            .head(
+                // wow this was tought to figure out :) here is how to add the applause javascrpt and stylesheet
+                .script(.src("https://unpkg.com/applause-button/dist/applause-button.js")),
+                   .stylesheet("https://unpkg.com/applause-button/dist/applause-button.css")
+               ),
+            
             .pageBody(for: context, location: page,
                       .group(.div(.class("container max-w-5xl mx-auto"),
                                   .div(.class("mx-0 sm:mx-6"),
                                        .main(.class("bg-white w-full p-8 md:p-24 text-xl md:text-2xl text-gray-800 leading-normal"),
-                                             .article(.class("prose prose-sm sm:prose-xl break-words"), .contentBody(page.body))
+                                             .article(.class("prose prose-sm sm:prose-xl break-words"), .contentBody(page.body)),
+                                             .element(named: "applause-button", text: "style=width: 51px; height: 58px;")
+                                             
+                                
+                                             
+                                             
                                     )
                         )
                         ))
@@ -309,7 +328,7 @@ private extension Node where Context == HTML.BodyContext {
                      .div(.class("flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow-lg p-6"),
                           .div(.class("flex items-center justify-between"),
                                .img(.class("w-8 h-8 rounded-full mr-4 avatar"), .src(site.avatar), .alt(site.author)),
-                               .p(.class("text-gray-600 text-xs md:text-sm"), .text(item.readTime))
+                               .p(.class("text-gray-800 text-xs md:text-sm"), .text(item.readTime))
                         )
                     )
                 )
@@ -330,7 +349,7 @@ private extension Node where Context == HTML.BodyContext {
              .div(.class("flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow-lg p-6"),
                   .div(.class("flex items-center justify-between"),
                        .img(.class("w-8 h-8 rounded-full mr-4 avatar"), .src(site.avatar), .alt(site.author)),
-                       .p(.class("text-gray-600 text-xs md:text-sm"), .text(item.readTime))
+                       .p(.class("text-gray-800 text-xs md:text-sm"), .text(item.readTime))
                 )
             )
         )
@@ -368,7 +387,7 @@ private extension Node where Context == HTML.BodyContext {
                                       .ul(.class("list-reset flex justify-center flex-1 md:flex-none items-center"),
                                           .li(.a(.class("inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3 text-sm"), .href(site.rootPath), .text("Latest Posts"))),
                                           .li(.a(.class("inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3 text-sm"), .href("https://github.com/JohnSundell/Publish"),.text("Publish"))),
-                                          .li(.a(.class("inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline py-2 px-3 text-sm"), .href("https://ghost.org"),.text("Ghost"))),
+                                     
                                           .li(.a(.class("inline-block text-gray-600 no-underline hover:text-gray-200 hover:underline px-3 text-sm"), .href("\(site.rootPath)feed.rss"), .element(named: "svg", nodes: [.class("fill-current h-6"), .attribute(named: "xmlns", value: "http://www.w3.org/2000/svg"), .attribute(named: "viewBox", value: "0 0 24 24"), .element(named: "circle", attributes: [.attribute(named: "cx", value: "6.18"), .attribute(named: "cy", value: "17.82"), .attribute(named: "r", value: "2.18")]), .element(named: "path", attributes: [.attribute(named: "d", value: "M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z")])])))
                                     )
                                 )
@@ -396,11 +415,12 @@ private extension Node where Context == HTML.BodyContext {
                   .img(.class("w-10 h-10 rounded-full mr-4"), .src(site.avatar), .alt(site.author)),
                   .div(.class("flex-1"),
                        .p(.class("text-base font-bold text-base md:text-xl leading-none"), .text(site.author)),
-                       .p(.class("text-gray-600 text-xs md:text-base"), .text(site.bio))
+                       .p(.class("text-gray-900 text-xs md:text-base"), .text(site.bio))
                 )
             ),
              .div(.class("mt-8 md:mt-0 mx-auto md:mx-0 md:justify-end"),
-                  .a(.class("bg-transparent border border-gray-500 hover:border-casper-blue text-xs text-gray-500 hover:text-casper-blue font-bold py-2 px-4 rounded-full"), .text("All tags"), .href(site.tagListPath))
+                  .a(.class("bg-transparent border border-gray-900 hover:border-casper-blue text-xs text-gray-900 hover:text-casper-blue font-bold py-2 px-4 rounded-full"), .text("All tags"), .href(site.tagListPath)
+                  )
             )
         )
     }

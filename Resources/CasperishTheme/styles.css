@@ -957,7 +957,7 @@ video {
 }
 
 .prose-sm {
-  font-size: 0.875rem;
+  font-size: 1.25rem;
   line-height: 1.7142857;
 }
 
@@ -2112,6 +2112,7 @@ video {
 
 .leading-normal {
   line-height: 1.5;
+
 }
 
 .m-0 {
@@ -2342,6 +2343,7 @@ video {
   --text-opacity: 1;
   color: #ceff00;
   font-weight:700;
+
 }
 
 .text-gray-200 {
@@ -2351,26 +2353,28 @@ video {
 }
 
 .text-gray-500 {
- color: #ceff00;
- font-weight:700;
+    font-weight:700;
+  color: #ceff00;
+
 }
 
 .text-gray-600 {
- color: #ceff00;
- font-weight:700;
-
+    font-weight:700;
+    color: #ceff00;
 }
 
 .text-gray-800 {
-
-  color: #ceff00;
- font-weight:700;
+  --text-opacity: 1;
+  color: #2d3748;
+  color: rgba(45, 55, 72, var(--text-opacity));
 }
 
 .text-gray-900 {
- color: #ceff00;
- font-weight:700;
+  --text-opacity: 1;
+  color: #1a202c;
+  color: rgba(26, 32, 44, var(--text-opacity));
 }
+
 
 .text-casper-blue {
   --text-opacity: 1;
@@ -2510,6 +2514,7 @@ video {
 }
 
 /* Monokai Theme for syntax highlighting */
+
 
 .highlight pre { background-color: #272822;
 }
