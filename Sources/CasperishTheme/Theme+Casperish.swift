@@ -8,7 +8,7 @@ import Foundation
 import Plot
 import Publish
 import ReadingTimePublishPlugin
-import SwiftPygmentsPublishPlugin
+
 
 public extension Theme where Site: CasperishWebsite {
     static var casperish: Self {
