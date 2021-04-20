@@ -225,6 +225,8 @@ private struct CasperishHTMLFactory<Site: Website>: HTMLFactory where Site: Casp
             .stylesheet("https://unpkg.com/applause-button/dist/applause-button.css")
             ),
             
+            //TODO add the same for articles
+            
             
             .pageBody(for: context, location: page,
                       .group(.div(.class("container max-w-5xl mx-auto"),
@@ -247,7 +249,16 @@ private struct CasperishHTMLFactory<Site: Website>: HTMLFactory where Site: Casp
                          context: PublishingContext<Site>) throws -> HTML? {
         HTML(
             .lang(context.site.language),
-            .head(for: page, on: context.site, stylesheetPaths: [context.site.rootPath.appendingComponent("/styles.css")]),
+            
+            // custom head to allow the inclusion of the applause package
+            // can be used also for other elements in head 
+            .customHead(
+            for: page, on: context.site, stylesheetPaths: [context.site.rootPath.appendingComponent("/styles.css")],
+            .script(.src("https://unpkg.com/applause-button/dist/applause-button.js")),
+            .stylesheet("https://unpkg.com/applause-button/dist/applause-button.css")
+            ),
+            
+            
             .pageBody(for: context, location: page,
                       .group(.div(.class("container max-w-5xl mx-auto"),
                                   .div(.class("mx-0 sm:mx-6"),
