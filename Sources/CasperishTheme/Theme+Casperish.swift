@@ -19,6 +19,44 @@ public extension Theme where Site: CasperishWebsite {
     }
 }
 
+public extension Node where Context == HTML.DocumentContext {
+
+  static func customHead<T: Website>(
+    for location: Location,
+    on site: T,
+    titleSeparator: String = " | ",
+    stylesheetPaths: [Path] = ["/styles.css"],
+    _ nodes: Node<HTML.HeadContext>...) -> Node {
+
+    var title = location.title
+
+    if title.isEmpty {
+      title = site.name
+    } else {
+      title.append(titleSeparator + site.name)
+    }
+
+    var description = location.description
+
+    if description.isEmpty {
+      description = site.description
+    }
+
+    let customNodes = nodes + [.encoding(.utf8),
+                               .siteName(site.name),
+                               .url(site.url(for: location)),
+                               .title(title),
+                               .description(description),
+                               .twitterCardType(location.imagePath == nil ? .summary : .summaryLargeImage),
+                               .forEach(stylesheetPaths, { .stylesheet($0) }),
+                               .viewport(.accordingToDevice)]
+
+    return Node.element(named: "head", nodes: customNodes)
+  }
+}
+
+
+
 public protocol CasperishWebsiteItemMetadata {
     var cover: String? { get }
 }
@@ -130,7 +168,10 @@ private struct CasperishHTMLFactory<Site: Website>: HTMLFactory where Site: Casp
         
         return HTML(
             .lang(context.site.language),
-            .head(for: item, on: context.site, stylesheetPaths: [context.site.rootPath.appendingComponent("/styles.css")]),
+            .head(for: item, on: context.site, stylesheetPaths: [context.site.rootPath.appendingComponent("/styles.css")]
+            
+            
+            ),
             .head(
                 // wow this was tought to figure out :) here is how to add the applause javascrpt and stylesheet
                 .script(.src("https://unpkg.com/applause-button/dist/applause-button.js")),
@@ -178,15 +219,12 @@ private struct CasperishHTMLFactory<Site: Website>: HTMLFactory where Site: Casp
                       context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(
-                for: page, on: context.site, stylesheetPaths: [context.site.rootPath.appendingComponent("/styles.css")]
+            .customHead(
+            for: page, on: context.site, stylesheetPaths: [context.site.rootPath.appendingComponent("/styles.css")],
+            .script(.src("https://unpkg.com/applause-button/dist/applause-button.js")),
+            .stylesheet("https://unpkg.com/applause-button/dist/applause-button.css")
             ),
             
-            .head(
-                // wow this was tought to figure out :) here is how to add the applause javascrpt and stylesheet
-                .script(.src("https://unpkg.com/applause-button/dist/applause-button.js")),
-                   .stylesheet("https://unpkg.com/applause-button/dist/applause-button.css")
-               ),
             
             .pageBody(for: context, location: page,
                       .group(.div(.class("container max-w-5xl mx-auto"),
